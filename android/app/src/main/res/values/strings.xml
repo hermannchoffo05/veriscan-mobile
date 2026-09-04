@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">VeriScan</string>
+    <string name="facebook_app_id">1576390161154610</string>
+    <string name="fb_login_protocol_scheme">fb1576390161154610</string>
+    <string name="facebook_client_token">b1d3af8861fe456c6d2be2e01eabc1a2</string>
+</resources>
