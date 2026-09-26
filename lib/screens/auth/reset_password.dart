@@ -102,7 +102,12 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
           'password': _passwordController.text,
           'password_confirmation': _confirmController.text,
         }),
-      );
+      ).timeout(const Duration(seconds: 15));
+      if (response.headers['content-type']?.contains('application/json') != true) {
+        if (!mounted) return;
+        setState(() => _isLoading = false);
+        return;
+      }
       final data = jsonDecode(response.body);
       if (!mounted) return;
       setState(() => _isLoading = false);
@@ -159,7 +164,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
                         Image.asset(
                           'assets/images/forgot_bg.png',
                           fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) => Container(color: const Color(0xFF0F766E)),
+                          errorBuilder: (_, __, ___) => Container(color: AppColors.primary),
                         ),
 
                         Container(
@@ -167,7 +172,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
                             gradient: LinearGradient(
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
-                              colors: [Color(0xCC064E3B), Color(0xCC0F766E), Color(0xBB0D9488)],
+                              colors: [Color(0xCC1F2A52), Color(0xCC2E3A6B), Color(0xBB4A5694)],
                             ),
                           ),
                         ),
@@ -337,7 +342,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
                                   : const Icon(Icons.check_rounded, size: 18),
                               label: const Text('Réinitialiser le mot de passe', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700)),
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.primary,
+                                backgroundColor: AppColors.accent,
                                 foregroundColor: Colors.white,
                                 padding: const EdgeInsets.symmetric(vertical: 15),
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),

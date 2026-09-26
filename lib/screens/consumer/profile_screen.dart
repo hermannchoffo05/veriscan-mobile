@@ -198,7 +198,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: ElevatedButton(
                 onPressed: () => Navigator.pop(ctx),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
+                  backgroundColor: AppColors.accent,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   padding: const EdgeInsets.symmetric(vertical: 14),
@@ -264,14 +264,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: Column(
         children: [
 
-          // ── Header teal ───────────────────────────────────────────────────
+          // ── Header marine ───────────────────────────────────────────────────
           Container(
             width: double.infinity,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [Color(0xFF0F766E), Color(0xFF0D9488), Color(0xFF14B8A6)],
+                colors: [AppColors.primaryDark, AppColors.primary, AppColors.primarySoft],
               ),
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(32), bottomRight: Radius.circular(32)),
@@ -350,43 +350,82 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                   const SizedBox(height: 8),
 
+                  // ── Groupe 1 : profil / historique / signalements ────────
                   _card([
-                    _option(Icons.person_outline, s.profileEditProfile, s.profileEditSubtitle, () =>
-                      Navigator.push(context, MaterialPageRoute(
+                    _option(
+                      Icons.person_outline,
+                      s.profileEditProfile,
+                      s.profileEditSubtitle,
+                      () => Navigator.push(context, MaterialPageRoute(
                         builder: (_) => EditProfileScreen(
                           currentName: _userName, currentEmail: _userEmail),
                       )).then((updated) { if (updated == true) _loadUserInfo(); }),
+                      bgColor: AppColors.primaryLight,
+                      iconColor: AppColors.primary,
                     ),
                     _divider(),
-                    _option(Icons.history_rounded, s.profileVerifications, s.profileVerifSubtitle, () =>
-                      Navigator.push(context,
+                    _option(
+                      Icons.history_rounded,
+                      s.profileVerifications,
+                      s.profileVerifSubtitle,
+                      () => Navigator.push(context,
                         MaterialPageRoute(builder: (_) => const HistoriqueScreen())),
+                      bgColor: AppColors.accentLight,
+                      iconColor: AppColors.accentDark,
                     ),
                     _divider(),
-                    _option(Icons.report_outlined, s.profileReports, s.profileReportsSubtitle, () =>
-                      Navigator.push(context,
+                    _option(
+                      Icons.report_outlined,
+                      s.profileReports,
+                      s.profileReportsSubtitle,
+                      () => Navigator.push(context,
                         MaterialPageRoute(builder: (_) => const SignalementScreen())),
+                      bgColor: const Color(0xFFFFF1F2),
+                      iconColor: AppColors.danger,
                     ),
                   ]),
 
                   const SizedBox(height: 16),
 
+                  // ── Groupe 2 : notifications / sécurité / langue / à propos ─
                   _card([
-                    _option(Icons.notifications_outlined, s.profileNotifications, s.profileNotifSubtitle, () =>
-                      Navigator.push(context,
+                    _option(
+                      Icons.notifications_outlined,
+                      s.profileNotifications,
+                      s.profileNotifSubtitle,
+                      () => Navigator.push(context,
                         MaterialPageRoute(builder: (_) => const NotificationsScreen())),
+                      bgColor: const Color(0xFFFFFBEB),
+                      iconColor: const Color(0xFFD97706),
                     ),
                     _divider(),
-                    _option(Icons.security_outlined, s.profileSecurity, s.profileSecuritySubtitle, () =>
-                      Navigator.push(context,
+                    _option(
+                      Icons.security_outlined,
+                      s.profileSecurity,
+                      s.profileSecuritySubtitle,
+                      () => Navigator.push(context,
                         MaterialPageRoute(builder: (_) => const SecurityScreen())),
+                      bgColor: const Color(0xFFF0FDF4),
+                      iconColor: AppColors.success,
                     ),
                     _divider(),
-                    _option(Icons.language_outlined, s.profileLanguage, s.profileLanguageSubtitle,
+                    _option(
+                      Icons.language_outlined,
+                      s.profileLanguage,
+                      s.profileLanguageSubtitle,
                       _showLanguagePicker,
+                      bgColor: const Color(0xFFF5F3FF),
+                      iconColor: const Color(0xFF7C3AED),
                     ),
                     _divider(),
-                    _option(Icons.info_outline, s.profileAbout, s.profileAboutSubtitle, _showAPropos),
+                    _option(
+                      Icons.info_outline,
+                      s.profileAbout,
+                      s.profileAboutSubtitle,
+                      _showAPropos,
+                      bgColor: const Color(0xFFF1F5F9),
+                      iconColor: AppColors.textGray,
+                    ),
                   ]),
 
                   const SizedBox(height: 16),
@@ -429,14 +468,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _option(IconData icon, String title, String subtitle, VoidCallback onTap) {
+  /// [bgColor] et [iconColor] permettent de varier l'accent de chaque option
+  /// (au lieu de tout mettre en bleu marine par défaut).
+  Widget _option(
+    IconData icon,
+    String title,
+    String subtitle,
+    VoidCallback onTap, {
+    Color? bgColor,
+    Color? iconColor,
+  }) {
     return ListTile(
       onTap: onTap,
       leading: Container(
         width: 40, height: 40,
         decoration: BoxDecoration(
-          color: AppColors.primaryLight, borderRadius: BorderRadius.circular(10)),
-        child: Icon(icon, color: AppColors.primary, size: 20),
+          color: bgColor ?? AppColors.primaryLight,
+          borderRadius: BorderRadius.circular(10)),
+        child: Icon(icon, color: iconColor ?? AppColors.primary, size: 20),
       ),
       title: Text(title,
         style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.textDark)),

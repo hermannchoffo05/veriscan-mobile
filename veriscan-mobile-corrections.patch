@@ -1,0 +1,290 @@
+diff --git a/android/app/src/main/AndroidManifest.xml b/android/app/src/main/AndroidManifest.xml
+index fd69add..9ef44e9 100644
+--- a/android/app/src/main/AndroidManifest.xml
++++ b/android/app/src/main/AndroidManifest.xml
+@@ -1,5 +1,6 @@
+ <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+ 
++    <uses-permission android:name="android.permission.INTERNET" />
+     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+     <uses-permission android:name="android.permission.CAMERA" />
+diff --git a/lib/screens/auth/forgot_password.dart b/lib/screens/auth/forgot_password.dart
+index e661021..76d7df5 100644
+--- a/lib/screens/auth/forgot_password.dart
++++ b/lib/screens/auth/forgot_password.dart
+@@ -50,7 +50,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
+           'ngrok-skip-browser-warning': 'true',
+         },
+         body: jsonEncode({'email': _emailController.text.trim()}),
+-      );
++      ).timeout(const Duration(seconds: 15));
+       final data = jsonDecode(response.body);
+       if (!mounted) return;
+       setState(() => _isLoading = false);
+diff --git a/lib/screens/auth/reset_password.dart b/lib/screens/auth/reset_password.dart
+index cb9814e..0f6f5c3 100644
+--- a/lib/screens/auth/reset_password.dart
++++ b/lib/screens/auth/reset_password.dart
+@@ -102,7 +102,12 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
+           'password': _passwordController.text,
+           'password_confirmation': _confirmController.text,
+         }),
+-      );
++      ).timeout(const Duration(seconds: 15));
++      if (response.headers['content-type']?.contains('application/json') != true) {
++        if (!mounted) return;
++        setState(() => _isLoading = false);
++        return;
++      }
+       final data = jsonDecode(response.body);
+       if (!mounted) return;
+       setState(() => _isLoading = false);
+diff --git a/lib/screens/auth/verify_code.dart b/lib/screens/auth/verify_code.dart
+index 27be4a0..e58022f 100644
+--- a/lib/screens/auth/verify_code.dart
++++ b/lib/screens/auth/verify_code.dart
+@@ -98,7 +98,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
+           'ngrok-skip-browser-warning': 'true',
+         },
+         body: jsonEncode({'email': widget.email}),
+-      );
++      ).timeout(const Duration(seconds: 15));
+       final data = jsonDecode(response.body);
+       if (!mounted) return;
+       if (data['success'] == true) {
+@@ -181,7 +181,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
+           'ngrok-skip-browser-warning': 'true',
+         },
+         body: jsonEncode({'email': widget.email, 'code': _code}),
+-      );
++      ).timeout(const Duration(seconds: 15));
+       final data = jsonDecode(response.body);
+       if (!mounted) return;
+       setState(() => _isLoading = false);
+diff --git a/lib/screens/consumer/assistant_screen.dart b/lib/screens/consumer/assistant_screen.dart
+index 7fdc8f9..81f4c53 100644
+--- a/lib/screens/consumer/assistant_screen.dart
++++ b/lib/screens/consumer/assistant_screen.dart
+@@ -42,7 +42,7 @@ class _AssistantScreenState extends State<AssistantScreen> {
+           'ngrok-skip-browser-warning': 'true',
+           if (token != null) 'Authorization': 'Bearer $token',
+         },
+-      );
++      ).timeout(const Duration(seconds: 15));
+ 
+       final data = jsonDecode(response.body);
+ 
+@@ -115,7 +115,7 @@ class _AssistantScreenState extends State<AssistantScreen> {
+           'ngrok-skip-browser-warning': 'true',
+           if (token != null) 'Authorization': 'Bearer $token',
+         },
+-      );
++      ).timeout(const Duration(seconds: 15));
+ 
+       if (mounted) {
+         setState(() {
+@@ -160,7 +160,7 @@ class _AssistantScreenState extends State<AssistantScreen> {
+           if (token != null) 'Authorization': 'Bearer $token',
+         },
+         body: jsonEncode({'message': text}),
+-      );
++      ).timeout(const Duration(seconds: 30));
+ 
+       final data = jsonDecode(response.body);
+ 
+diff --git a/lib/screens/consumer/edit_profile_screen.dart b/lib/screens/consumer/edit_profile_screen.dart
+index 9ddb847..2839aa4 100644
+--- a/lib/screens/consumer/edit_profile_screen.dart
++++ b/lib/screens/consumer/edit_profile_screen.dart
+@@ -56,7 +56,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
+           'name': _nameController.text.trim(),
+           'email': _emailController.text.trim(),
+         }),
+-      );
++      ).timeout(const Duration(seconds: 15));
+ 
+       final data = jsonDecode(response.body);
+       if (!mounted) return;
+diff --git a/lib/screens/consumer/home_screen.dart b/lib/screens/consumer/home_screen.dart
+index f5ae367..95925af 100644
+--- a/lib/screens/consumer/home_screen.dart
++++ b/lib/screens/consumer/home_screen.dart
+@@ -219,7 +219,7 @@ class _DashboardTabState extends State<_DashboardTab> {
+           'ngrok-skip-browser-warning': 'true',
+           if (token != null) 'Authorization': 'Bearer $token',
+         },
+-      );
++      ).timeout(const Duration(seconds: 15));
+       final data = jsonDecode(response.body);
+       if (mounted && data['success'] == true) {
+         setState(() => _nonLuesNotifs = data['non_lues'] ?? 0);
+diff --git a/lib/screens/consumer/notifications_screen.dart b/lib/screens/consumer/notifications_screen.dart
+index 4808e81..1e16dc1 100644
+--- a/lib/screens/consumer/notifications_screen.dart
++++ b/lib/screens/consumer/notifications_screen.dart
+@@ -40,7 +40,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
+           'ngrok-skip-browser-warning': 'true',
+           if (token != null) 'Authorization': 'Bearer $token',
+         },
+-      );
++      ).timeout(const Duration(seconds: 15));
+ 
+       final data = jsonDecode(response.body);
+       if (mounted) {
+@@ -73,7 +73,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
+         'ngrok-skip-browser-warning': 'true',
+         if (token != null) 'Authorization': 'Bearer $token',
+       },
+-    );
++    ).timeout(const Duration(seconds: 15));
+     setState(() {
+       final index = _notifications.indexWhere((n) => n['id'] == id);
+       if (index != -1 && _notifications[index]['lu'] == false) {
+@@ -92,7 +92,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
+         'ngrok-skip-browser-warning': 'true',
+         if (token != null) 'Authorization': 'Bearer $token',
+       },
+-    );
++    ).timeout(const Duration(seconds: 15));
+     setState(() {
+       for (var n in _notifications) {
+         n['lu'] = true;
+diff --git a/lib/screens/consumer/scan_screen.dart b/lib/screens/consumer/scan_screen.dart
+index 064c180..47b629c 100644
+--- a/lib/screens/consumer/scan_screen.dart
++++ b/lib/screens/consumer/scan_screen.dart
+@@ -316,7 +316,7 @@ class _ResultScreenState extends State<_ResultScreen> {
+           if (token != null) 'Authorization': 'Bearer $token',
+         },
+         body: jsonEncode({'token': widget.token}),
+-      );
++      ).timeout(const Duration(seconds: 15));
+ 
+       final data = jsonDecode(response.body);
+ 
+diff --git a/lib/screens/consumer/search_screen.dart b/lib/screens/consumer/search_screen.dart
+index d65396a..4481c77 100644
+--- a/lib/screens/consumer/search_screen.dart
++++ b/lib/screens/consumer/search_screen.dart
+@@ -54,7 +54,7 @@ class _SearchScreenState extends State<SearchScreen> {
+           'Accept': 'application/json',
+           'ngrok-skip-browser-warning': 'true',
+         },
+-      );
++      ).timeout(const Duration(seconds: 15));
+ 
+       final data = jsonDecode(response.body);
+       if (mounted) {
+diff --git a/lib/screens/consumer/security_screen.dart b/lib/screens/consumer/security_screen.dart
+index c610ebd..56c1a08 100644
+--- a/lib/screens/consumer/security_screen.dart
++++ b/lib/screens/consumer/security_screen.dart
+@@ -49,7 +49,7 @@ class _SecurityScreenState extends State<SecurityScreen> {
+           'new_password': _newPasswordController.text,
+           'new_password_confirmation': _confirmPasswordController.text,
+         }),
+-      );
++      ).timeout(const Duration(seconds: 15));
+ 
+       final data = jsonDecode(response.body);
+       if (!mounted) return;
+diff --git a/lib/screens/consumer/verify_manual_screen.dart b/lib/screens/consumer/verify_manual_screen.dart
+index d55027e..814f9ab 100644
+--- a/lib/screens/consumer/verify_manual_screen.dart
++++ b/lib/screens/consumer/verify_manual_screen.dart
+@@ -54,7 +54,7 @@ class _VerifyManualScreenState extends State<VerifyManualScreen> {
+           if (authToken != null) 'Authorization': 'Bearer $authToken',
+         },
+         body: jsonEncode({'token': token}),
+-      );
++      ).timeout(const Duration(seconds: 15));
+ 
+       final data = jsonDecode(response.body);
+ 
+diff --git a/lib/services/auth_service.dart b/lib/services/auth_service.dart
+index 6caeb82..bc77a5c 100644
+--- a/lib/services/auth_service.dart
++++ b/lib/services/auth_service.dart
+@@ -33,7 +33,10 @@ class AuthService {
+           'ngrok-skip-browser-warning': 'true',
+         },
+         body: jsonEncode({'id_token': idToken}),
+-      );
++      ).timeout(const Duration(seconds: 15));
++      if (response.headers['content-type']?.contains('application/json') != true) {
++        return {'success': false, 'message': 'Réponse invalide du serveur'};
++      }
+       final data = jsonDecode(response.body);
+       if (data['success'] == true) {
+         final prefs = await SharedPreferences.getInstance();
+@@ -74,7 +77,10 @@ class AuthService {
+           'ngrok-skip-browser-warning': 'true',
+         },
+         body: jsonEncode({'access_token': accessToken}),
+-      );
++      ).timeout(const Duration(seconds: 15));
++      if (response.headers['content-type']?.contains('application/json') != true) {
++        return {'success': false, 'message': 'Réponse invalide du serveur'};
++      }
+       final data = jsonDecode(response.body);
+       if (data['success'] == true) {
+         final prefs = await SharedPreferences.getInstance();
+@@ -116,7 +122,10 @@ class AuthService {
+           'password_confirmation': password,
+           'phone':                 phone ?? '',
+         }),
+-      );
++      ).timeout(const Duration(seconds: 15));
++      if (response.headers['content-type']?.contains('application/json') != true) {
++        return {'success': false, 'message': 'Réponse invalide du serveur'};
++      }
+       final data = jsonDecode(response.body);
+       if (response.statusCode == 201) {
+         final prefs = await SharedPreferences.getInstance();
+@@ -150,7 +159,10 @@ class AuthService {
+           'email':    email,
+           'password': password,
+         }),
+-      );
++      ).timeout(const Duration(seconds: 15));
++      if (response.headers['content-type']?.contains('application/json') != true) {
++        return {'success': false, 'message': 'Réponse invalide du serveur'};
++      }
+       final data = jsonDecode(response.body);
+       if (response.statusCode == 200 && data['success'] == true) {
+         final prefs = await SharedPreferences.getInstance();
+diff --git a/lib/services/report_service.dart b/lib/services/report_service.dart
+index 55a6940..7cd9429 100644
+--- a/lib/services/report_service.dart
++++ b/lib/services/report_service.dart
+@@ -55,8 +55,11 @@ class ReportService {
+         );
+       }
+ 
+-      final streamed = await request.send();
++      final streamed = await request.send().timeout(const Duration(seconds: 30));
+       final response = await http.Response.fromStream(streamed);
++      if (response.headers['content-type']?.contains('application/json') != true) {
++        return {'success': false, 'message': 'Réponse invalide du serveur'};
++      }
+       final data     = jsonDecode(response.body) as Map<String, dynamic>;
+ 
+       if (response.statusCode == 201 && data['success'] == true) {
+diff --git a/lib/services/verify_service.dart b/lib/services/verify_service.dart
+index c78d2ed..ff8cc32 100644
+--- a/lib/services/verify_service.dart
++++ b/lib/services/verify_service.dart
+@@ -20,8 +20,11 @@ class VerifyService {
+           'ngrok-skip-browser-warning': 'true',
+           'Authorization': 'Bearer $token',
+         },
+-      );
++      ).timeout(const Duration(seconds: 15));
+ 
++      if (response.headers['content-type']?.contains('application/json') != true) {
++        return {'success': false, 'message': 'Réponse invalide du serveur'};
++      }
+       final data = jsonDecode(response.body);
+ 
+       if (response.statusCode == 200 && data['success'] == true) {

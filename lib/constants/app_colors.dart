@@ -1,11 +1,26 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  // Couleur principale VeriScan (teal)
-  static const Color primary = Color(0xFF0F766E);
+  // Couleur principale VeriScan (marine) — structure : headers, nav, texte fort
+  static const Color primary = Color(0xFF2E3A6B);
 
-  // Teal clair pour les fonds de sections
-  static const Color primaryLight = Color(0xFFF0FDFA);
+  // Marine plus foncé — pour les dégradés de header/hero
+  static const Color primaryDark = Color(0xFF1F2A52);
+
+  // Marine très clair — fonds de sections / cartes teintées
+  static const Color primaryLight = Color(0xFFEEF1F8);
+
+  // Marine intermédiaire — 3e ton pour les dégradés de header
+  static const Color primarySoft = Color(0xFF4A5694);
+
+  // Orange — couleur d'action VeriScan : CTA, boutons, éléments interactifs
+  static const Color accent = Color(0xFFF5A623);
+
+  // Orange plus foncé — état pressé / hover des CTA
+  static const Color accentDark = Color(0xFFDB8F14);
+
+  // Orange très clair — fonds teintés autour des CTA
+  static const Color accentLight = Color(0xFFFDF1DC);
 
   // Rouge Cameroun — produit contrefait / danger
   static const Color danger = Color(0xFFCE1126);
@@ -31,3 +46,4 @@ class AppColors {
   // Fond des cartes
   static const Color cardBackground = Color(0xFFFFFFFF);
 }
+   

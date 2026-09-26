@@ -54,7 +54,7 @@ class _SearchScreenState extends State<SearchScreen> {
           'Accept': 'application/json',
           'ngrok-skip-browser-warning': 'true',
         },
-      );
+      ).timeout(const Duration(seconds: 15));
 
       final data = jsonDecode(response.body);
       if (mounted) {
@@ -80,7 +80,7 @@ class _SearchScreenState extends State<SearchScreen> {
       body: Column(
         children: [
 
-          // ── Header teal ──────────────────────────────────────────
+          // ── Header marine ──────────────────────────────────────────
           Container(
             width: double.infinity,
             decoration: const BoxDecoration(
@@ -88,9 +88,9 @@ class _SearchScreenState extends State<SearchScreen> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Color(0xFF0F766E),
-                  Color(0xFF0D9488),
-                  Color(0xFF14B8A6),
+                  AppColors.primaryDark,
+                  AppColors.primary,
+                  AppColors.primarySoft,
                 ],
               ),
               borderRadius: BorderRadius.only(
@@ -138,7 +138,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
                     const SizedBox(height: 16),
 
-                    // Champ de recherche
+                    // Champ de recherche — icône en accent ambre
                     Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -168,7 +168,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           ),
                           prefixIcon: const Icon(
                             Icons.search_rounded,
-                            color: AppColors.primary,
+                            color: AppColors.accentDark,
                             size: 22,
                           ),
                           suffixIcon: _searchController.text.isNotEmpty
@@ -205,7 +205,7 @@ class _SearchScreenState extends State<SearchScreen> {
           Expanded(
             child: _isLoading
                 ? const Center(
-                    child: CircularProgressIndicator(color: AppColors.primary),
+                    child: CircularProgressIndicator(color: AppColors.accent),
                   )
                 : !_hasSearched
                     ? _buildInitial()
@@ -228,7 +228,7 @@ class _SearchScreenState extends State<SearchScreen> {
             Icon(
               Icons.search_rounded,
               size: 72,
-              color: AppColors.primary.withValues(alpha: 0.2),
+              color: AppColors.accent.withValues(alpha: 0.3),
             ),
             const SizedBox(height: 16),
             const Text(
@@ -380,11 +380,12 @@ class _SearchScreenState extends State<SearchScreen> {
                           overflow: TextOverflow.ellipsis,
                         ),
                       const SizedBox(height: 3),
+                      // Token en accent ambre plutôt que marine
                       Text(
                         item['token'] ?? '',
                         style: TextStyle(
                           fontSize: 11,
-                          color: AppColors.primary.withValues(alpha: 0.7),
+                          color: AppColors.accentDark.withValues(alpha: 0.85),
                           fontFamily: 'monospace',
                         ),
                         maxLines: 1,

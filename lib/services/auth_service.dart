@@ -33,7 +33,10 @@ class AuthService {
           'ngrok-skip-browser-warning': 'true',
         },
         body: jsonEncode({'id_token': idToken}),
-      );
+      ).timeout(const Duration(seconds: 15));
+      if (response.headers['content-type']?.contains('application/json') != true) {
+        return {'success': false, 'message': 'Réponse invalide du serveur'};
+      }
       final data = jsonDecode(response.body);
       if (data['success'] == true) {
         final prefs = await SharedPreferences.getInstance();
@@ -74,7 +77,10 @@ class AuthService {
           'ngrok-skip-browser-warning': 'true',
         },
         body: jsonEncode({'access_token': accessToken}),
-      );
+      ).timeout(const Duration(seconds: 15));
+      if (response.headers['content-type']?.contains('application/json') != true) {
+        return {'success': false, 'message': 'Réponse invalide du serveur'};
+      }
       final data = jsonDecode(response.body);
       if (data['success'] == true) {
         final prefs = await SharedPreferences.getInstance();
@@ -116,7 +122,10 @@ class AuthService {
           'password_confirmation': password,
           'phone':                 phone ?? '',
         }),
-      );
+      ).timeout(const Duration(seconds: 15));
+      if (response.headers['content-type']?.contains('application/json') != true) {
+        return {'success': false, 'message': 'Réponse invalide du serveur'};
+      }
       final data = jsonDecode(response.body);
       if (response.statusCode == 201) {
         final prefs = await SharedPreferences.getInstance();
@@ -150,7 +159,10 @@ class AuthService {
           'email':    email,
           'password': password,
         }),
-      );
+      ).timeout(const Duration(seconds: 15));
+      if (response.headers['content-type']?.contains('application/json') != true) {
+        return {'success': false, 'message': 'Réponse invalide du serveur'};
+      }
       final data = jsonDecode(response.body);
       if (response.statusCode == 200 && data['success'] == true) {
         final prefs = await SharedPreferences.getInstance();

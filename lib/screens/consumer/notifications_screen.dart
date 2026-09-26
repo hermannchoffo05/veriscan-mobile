@@ -40,7 +40,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           'ngrok-skip-browser-warning': 'true',
           if (token != null) 'Authorization': 'Bearer $token',
         },
-      );
+      ).timeout(const Duration(seconds: 15));
 
       final data = jsonDecode(response.body);
       if (mounted) {
@@ -73,7 +73,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         'ngrok-skip-browser-warning': 'true',
         if (token != null) 'Authorization': 'Bearer $token',
       },
-    );
+    ).timeout(const Duration(seconds: 15));
     setState(() {
       final index = _notifications.indexWhere((n) => n['id'] == id);
       if (index != -1 && _notifications[index]['lu'] == false) {
@@ -92,7 +92,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         'ngrok-skip-browser-warning': 'true',
         if (token != null) 'Authorization': 'Bearer $token',
       },
-    );
+    ).timeout(const Duration(seconds: 15));
     setState(() {
       for (var n in _notifications) {
         n['lu'] = true;
@@ -108,7 +108,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       body: Column(
         children: [
 
-          // ── Header teal ──────────────────────────────────────────
+          // ── Header marine ──────────────────────────────────────────
           Container(
             width: double.infinity,
             decoration: const BoxDecoration(
@@ -116,9 +116,9 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Color(0xFF0F766E),
-                  Color(0xFF0D9488),
-                  Color(0xFF14B8A6),
+                  AppColors.primaryDark,
+                  AppColors.primary,
+                  AppColors.primarySoft,
                 ],
               ),
               borderRadius: BorderRadius.only(
@@ -164,6 +164,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                             ),
                           ],
                         ),
+                        // "Tout lire" en accent ambre : c'est une action, pas juste un badge
                         if (_nonLues > 0)
                           GestureDetector(
                             onTap: _marquerToutesLues,
@@ -173,15 +174,22 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                                 vertical: 6,
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.2),
+                                color: AppColors.accent,
                                 borderRadius: BorderRadius.circular(20),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AppColors.accent.withValues(alpha: 0.4),
+                                    blurRadius: 8,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                ],
                               ),
                               child: const Text(
                                 'Tout lire',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 12,
-                                  fontWeight: FontWeight.w600,
+                                  fontWeight: FontWeight.w700,
                                 ),
                               ),
                             ),
@@ -277,8 +285,10 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       iconBg = const Color(0xFFFFFBEB);
       icon = Icons.report_problem_rounded;
     } else {
-      iconColor = AppColors.primary;
-      iconBg = AppColors.primary.withValues(alpha: 0.1);
+      // Notification générique — accent ambre plutôt que marine,
+      // pour la distinguer visuellement des blocs de structure (headers).
+      iconColor = AppColors.accentDark;
+      iconBg = AppColors.accentLight;
       icon = Icons.info_rounded;
     }
 
@@ -288,12 +298,14 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         margin: const EdgeInsets.only(bottom: 10),
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: isLue ? Colors.white : AppColors.primary.withValues(alpha: 0.04),
+          // Une notification NON LUE se distingue par une teinte ambre
+          // (élément qui appelle l'attention), pas marine.
+          color: isLue ? Colors.white : AppColors.accentLight.withValues(alpha: 0.5),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: isLue
                 ? AppColors.textGray.withValues(alpha: 0.1)
-                : AppColors.primary.withValues(alpha: 0.2),
+                : AppColors.accent.withValues(alpha: 0.35),
           ),
           boxShadow: [
             BoxShadow(
@@ -345,7 +357,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                           width: 8,
                           height: 8,
                           decoration: const BoxDecoration(
-                            color: AppColors.primary,
+                            color: AppColors.accent,
                             shape: BoxShape.circle,
                           ),
                         ),
@@ -438,7 +450,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
               icon: const Icon(Icons.refresh_rounded),
               label: const Text('Réessayer'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
+                backgroundColor: AppColors.accent,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),

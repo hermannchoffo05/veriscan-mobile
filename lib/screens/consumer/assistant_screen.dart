@@ -42,7 +42,7 @@ class _AssistantScreenState extends State<AssistantScreen> {
           'ngrok-skip-browser-warning': 'true',
           if (token != null) 'Authorization': 'Bearer $token',
         },
-      );
+      ).timeout(const Duration(seconds: 15));
 
       final data = jsonDecode(response.body);
 
@@ -115,7 +115,7 @@ class _AssistantScreenState extends State<AssistantScreen> {
           'ngrok-skip-browser-warning': 'true',
           if (token != null) 'Authorization': 'Bearer $token',
         },
-      );
+      ).timeout(const Duration(seconds: 15));
 
       if (mounted) {
         setState(() {
@@ -160,7 +160,7 @@ class _AssistantScreenState extends State<AssistantScreen> {
           if (token != null) 'Authorization': 'Bearer $token',
         },
         body: jsonEncode({'message': text}),
-      );
+      ).timeout(const Duration(seconds: 30));
 
       final data = jsonDecode(response.body);
 
@@ -222,9 +222,9 @@ class _AssistantScreenState extends State<AssistantScreen> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Color(0xFF0F766E),
-                  Color(0xFF0D9488),
-                  Color(0xFF14B8A6),
+                  AppColors.primaryDark,
+                  AppColors.primary,
+                  AppColors.primarySoft,
                 ],
               ),
               borderRadius: BorderRadius.only(
@@ -360,7 +360,7 @@ class _AssistantScreenState extends State<AssistantScreen> {
                   ),
           ),
 
-          // ── Suggestions rapides ───────────────────────────────────────────
+          // ── Suggestions rapides — accent ambre ────────────────────────────
           if (_messages.length == 1)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -427,6 +427,7 @@ class _AssistantScreenState extends State<AssistantScreen> {
                     ),
                   ),
                   const SizedBox(width: 10),
+                  // Bouton d'envoi en accent ambre — c'est l'action principale de l'écran
                   GestureDetector(
                     onTap: _sendMessage,
                     child: AnimatedContainer(
@@ -435,12 +436,12 @@ class _AssistantScreenState extends State<AssistantScreen> {
                       height: 46,
                       decoration: BoxDecoration(
                         color: _isLoading
-                            ? AppColors.primary.withValues(alpha: 0.4)
-                            : AppColors.primary,
+                            ? AppColors.accent.withValues(alpha: 0.4)
+                            : AppColors.accent,
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                            color: AppColors.primary.withValues(alpha: 0.4),
+                            color: AppColors.accent.withValues(alpha: 0.4),
                             blurRadius: 8,
                             offset: const Offset(0, 2),
                           ),
@@ -495,7 +496,9 @@ class _AssistantScreenState extends State<AssistantScreen> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
                   decoration: BoxDecoration(
-                    color: isUser ? AppColors.primary : Colors.white,
+                    // Bulle de l'utilisateur en accent ambre (au lieu de marine)
+                    // pour distinguer nettement les deux interlocuteurs.
+                    color: isUser ? AppColors.accent : Colors.white,
                     borderRadius: BorderRadius.only(
                       topLeft: const Radius.circular(18),
                       topRight: const Radius.circular(18),
@@ -606,7 +609,7 @@ class _AssistantScreenState extends State<AssistantScreen> {
           width: 7,
           height: 7,
           decoration: BoxDecoration(
-            color: AppColors.primary.withValues(alpha: 0.4 + value * 0.6),
+            color: AppColors.accent.withValues(alpha: 0.4 + value * 0.6),
             shape: BoxShape.circle,
           ),
         );
@@ -623,17 +626,17 @@ class _AssistantScreenState extends State<AssistantScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
         decoration: BoxDecoration(
-          color: AppColors.primary.withValues(alpha: 0.08),
+          color: AppColors.accentLight,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: AppColors.primary.withValues(alpha: 0.2),
+            color: AppColors.accent.withValues(alpha: 0.4),
           ),
         ),
         child: Text(
           text,
           style: const TextStyle(
             fontSize: 12,
-            color: AppColors.primary,
+            color: AppColors.accentDark,
             fontWeight: FontWeight.w500,
           ),
         ),

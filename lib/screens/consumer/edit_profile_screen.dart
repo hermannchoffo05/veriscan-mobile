@@ -56,7 +56,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           'name': _nameController.text.trim(),
           'email': _emailController.text.trim(),
         }),
-      );
+      ).timeout(const Duration(seconds: 15));
 
       final data = jsonDecode(response.body);
       if (!mounted) return;
@@ -102,7 +102,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       body: Column(
         children: [
 
-          // ── Header teal ──────────────────────────────────────────
+          // ── Header marine ──────────────────────────────────────────
           Container(
             width: double.infinity,
             decoration: const BoxDecoration(
@@ -110,9 +110,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Color(0xFF0F766E),
-                  Color(0xFF0D9488),
-                  Color(0xFF14B8A6),
+                  AppColors.primaryDark,
+                  AppColors.primary,
+                  AppColors.primarySoft,
                 ],
               ),
               borderRadius: BorderRadius.only(
@@ -259,7 +259,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           ),
                         ),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
+                          backgroundColor: AppColors.accent,
                           foregroundColor: Colors.white,
                           disabledBackgroundColor:
                               AppColors.primary.withValues(alpha: 0.4),

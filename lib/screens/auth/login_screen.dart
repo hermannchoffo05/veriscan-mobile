@@ -47,22 +47,20 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.only(
-              bottomLeft: Radius.circular(36),
-              bottomRight: Radius.circular(36),
-            ),
+          // ── En-tête : dégradé + découpe en vague ────────────────────
+          ClipPath(
+            clipper: _WaveHeaderClipper(),
             child: Container(
               width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.40,
+              height: MediaQuery.of(context).size.height * 0.36,
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    Color(0xFF0F766E),
-                    Color(0xFF0D9488),
-                    Color(0xFF14B8A6),
+                    AppColors.primaryDark,
+                    AppColors.primary,
+                    AppColors.primarySoft,
                   ],
                 ),
               ),
@@ -71,44 +69,25 @@ class _LoginScreenState extends State<LoginScreen> {
                   Positioned(
                     top: -80, right: -80,
                     child: Container(
-                      width: 300, height: 300,
+                      width: 260, height: 260,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.white.withValues(alpha: 0.08),
+                        color: Colors.white.withValues(alpha: 0.07),
                       ),
                     ),
                   ),
                   Positioned(
-                    top: 60, left: -60,
+                    bottom: -60, left: -70,
                     child: Container(
-                      width: 200, height: 200,
+                      width: 220, height: 220,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.white.withValues(alpha: 0.06),
                       ),
                     ),
                   ),
-                  Positioned(
-                    top: 160, right: 40,
-                    child: Container(
-                      width: 100, height: 100,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white.withValues(alpha: 0.05),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 80, right: 160,
-                    child: Container(
-                      width: 60, height: 60,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white.withValues(alpha: 0.04),
-                      ),
-                    ),
-                  ),
                   SafeArea(
+                    bottom: false,
                     child: Stack(
                       children: [
                         Positioned(
@@ -136,46 +115,40 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         SizedBox(
                           width: double.infinity,
-                          height: MediaQuery.of(context).size.height * 0.40,
+                          height: MediaQuery.of(context).size.height * 0.30,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
-                                width: 90, height: 90,
+                                width: 96, height: 96,
                                 decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.white.withValues(alpha: 0.15),
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(24),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withValues(alpha: 0.18),
+                                      blurRadius: 18,
+                                      offset: const Offset(0, 8),
+                                    ),
+                                  ],
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(20),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withValues(alpha: 0.2),
-                                          blurRadius: 16,
-                                          offset: const Offset(0, 6),
-                                        ),
-                                      ],
-                                    ),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(20),
-                                      child: Image.asset(
-                                        'assets/images/logo.png',
-                                        fit: BoxFit.contain,
-                                      ),
+                                  padding: const EdgeInsets.all(14),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(14),
+                                    child: Image.asset(
+                                      'assets/images/logo.png',
+                                      fit: BoxFit.contain,
                                     ),
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 14),
+                              const SizedBox(height: 16),
                               const Text(
                                 'VeriScan',
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 26,
+                                  fontSize: 27,
                                   fontWeight: FontWeight.bold,
                                   letterSpacing: 1.5,
                                 ),
@@ -364,7 +337,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: ElevatedButton(
                         onPressed: _isLoading ? null : _login,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
+                          backgroundColor: AppColors.accent,
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(14),
@@ -392,7 +365,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 16),
                     Row(
                       children: [
                         Expanded(
@@ -417,22 +390,49 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _socialButton(
-                          'assets/images/google_logo.png',
-                          _loginWithGoogle,
+                    const SizedBox(height: 16),
+
+                    // ── Connexion Google — seule option, pleine largeur ──
+                    SizedBox(
+                      width: double.infinity,
+                      height: 52,
+                      child: OutlinedButton(
+                        onPressed: _isLoading ? null : _loginWithGoogle,
+                        style: OutlinedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          side: BorderSide(
+                            color: AppColors.textGray.withValues(alpha: 0.25),
+                            width: 1.2,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
                         ),
-                        const SizedBox(width: 16),
-                        _socialButton(
-                          'assets/images/facebook_logo.png',
-                          _loginWithFacebook,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/images/google_logo.png',
+                              width: 22, height: 22,
+                              fit: BoxFit.contain,
+                            ),
+                            const SizedBox(width: 12),
+                            Text(
+                              lang.isFr
+                                  ? 'Continuer avec Google'
+                                  : 'Continue with Google',
+                              style: const TextStyle(
+                                color: AppColors.textDark,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                    const SizedBox(height: 12),
+
+                    const SizedBox(height: 18),
                     Center(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -469,30 +469,6 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _socialButton(String imagePath, VoidCallback onTap) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 80, height: 52,
-        decoration: BoxDecoration(
-          color: const Color(0xFFF1F5F9),
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(
-            color: AppColors.textGray.withValues(alpha: 0.15),
-            width: 1,
-          ),
-        ),
-        child: Center(
-          child: Image.asset(
-            imagePath,
-            width: 26, height: 26,
-            fit: BoxFit.contain,
-          ),
-        ),
       ),
     );
   }
@@ -548,28 +524,24 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     }
   }
+}
 
-  Future<void> _loginWithFacebook() async {
-    setState(() => _isLoading = true);
-    final result = await AuthService.loginWithFacebook();
-    if (!mounted) return;
-    setState(() => _isLoading = false);
-    if (result['success'] == true) {
-    
-      if (!mounted) return;
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (_) => const HomeScreen()),
-        (route) => false,
-      );
-    } else {
-      final s = context.read<LanguageProvider>().s;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(result['message'] ?? s.errorFacebook),
-          backgroundColor: AppColors.danger,
-        ),
-      );
-    }
+/// Découpe le bas de l'en-tête en vague douce, remplace l'ancien
+/// rectangle à coins arrondis pour un look plus distinctif.
+class _WaveHeaderClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    final path = Path();
+    path.lineTo(0, size.height - 46);
+    path.quadraticBezierTo(
+      size.width / 2, size.height + 10,
+      size.width, size.height - 46,
+    );
+    path.lineTo(size.width, 0);
+    path.close();
+    return path;
   }
+
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) => false;
 }

@@ -1,5 +1,5 @@
 class ApiConfig {
-static const String baseUrl = 'https://ranger-flavoring-duffel.ngrok-free.dev';
+static const String baseUrl = 'https://headset-beliefs-custody-oriented.trycloudflare.com';
 
   // Auth
   static const String register = '$baseUrl/api/register';
@@ -33,3 +33,6 @@ static const String baseUrl = 'https://ranger-flavoring-duffel.ngrok-free.dev';
   static const String verifyResetCode  = '$baseUrl/api/verify-reset-code';
   static const String resetPassword    = '$baseUrl/api/reset-password';
 }
+
+
+

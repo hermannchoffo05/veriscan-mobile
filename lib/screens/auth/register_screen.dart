@@ -95,7 +95,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                           'assets/images/register_bg.png',
                           fit: BoxFit.cover,
                           errorBuilder: (_, __, ___) => Container(
-                            color: const Color(0xFF0F766E),
+                            color: AppColors.primary,
                           ),
                         ),
 
@@ -105,9 +105,9 @@ class _RegisterScreenState extends State<RegisterScreen>
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                               colors: [
-                                Color(0x99064E3B),
-                                Color(0x990F766E),
-                                Color(0x880D9488),
+                                Color(0x991F2A52),
+                                Color(0x992E3A6B),
+                                Color(0x884A5694),
                               ],
                             ),
                           ),
@@ -355,7 +355,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                                   ),
                                 ),
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppColors.primary,
+                                  backgroundColor: AppColors.accent,
                                   foregroundColor: Colors.white,
                                   padding: const EdgeInsets.symmetric(
                                     vertical: 13,

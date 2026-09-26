@@ -98,7 +98,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
           'ngrok-skip-browser-warning': 'true',
         },
         body: jsonEncode({'email': widget.email}),
-      );
+      ).timeout(const Duration(seconds: 15));
       final data = jsonDecode(response.body);
       if (!mounted) return;
       if (data['success'] == true) {
@@ -181,7 +181,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
           'ngrok-skip-browser-warning': 'true',
         },
         body: jsonEncode({'email': widget.email, 'code': _code}),
-      );
+      ).timeout(const Duration(seconds: 15));
       final data = jsonDecode(response.body);
       if (!mounted) return;
       setState(() => _isLoading = false);
@@ -249,7 +249,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
                           'assets/images/forgot_bg.png',
                           fit: BoxFit.cover,
                           errorBuilder: (_, __, ___) =>
-                              Container(color: const Color(0xFF0F766E)),
+                              Container(color: AppColors.primary),
                         ),
                         Container(
                           decoration: const BoxDecoration(
@@ -257,9 +257,9 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                               colors: [
-                                Color(0xCC064E3B),
-                                Color(0xCC0F766E),
-                                Color(0xBB0D9488)
+                                Color(0xCC1F2A52),
+                                Color(0xCC2E3A6B),
+                                Color(0xBB4A5694)
                               ],
                             ),
                           ),
@@ -581,7 +581,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
                                     fontSize: 15,
                                     fontWeight: FontWeight.w700)),
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primary,
+                              backgroundColor: AppColors.accent,
                               foregroundColor: Colors.white,
                               disabledBackgroundColor:
                                   AppColors.primary.withValues(alpha: 0.35),

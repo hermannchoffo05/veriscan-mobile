@@ -69,7 +69,7 @@ class _HistoriqueScreenState extends State<HistoriqueScreen> {
       body: Column(
         children: [
 
-          // ── Header teal avec stats ────────────────────────────────
+          // ── Header marine avec stats ────────────────────────────────
           Container(
             width: double.infinity,
             decoration: const BoxDecoration(
@@ -77,9 +77,9 @@ class _HistoriqueScreenState extends State<HistoriqueScreen> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Color(0xFF0F766E),
-                  Color(0xFF0D9488),
-                  Color(0xFF14B8A6),
+                  AppColors.primaryDark,
+                  AppColors.primary,
+                  AppColors.primarySoft,
                 ],
               ),
             ),
@@ -171,7 +171,8 @@ class _HistoriqueScreenState extends State<HistoriqueScreen> {
               child: Column(
                 children: [
 
-                  // Filtres
+                  // Filtres — l'onglet actif passe en accent ambre
+                  // (même logique que la sélection dans la barre de navigation)
                   Padding(
                     padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
                     child: Row(
@@ -263,11 +264,11 @@ class _HistoriqueScreenState extends State<HistoriqueScreen> {
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 7),
         decoration: BoxDecoration(
-          color: isActive ? AppColors.primary : const Color(0xFFF1F5F9),
+          color: isActive ? AppColors.accent : const Color(0xFFF1F5F9),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: isActive
-                ? AppColors.primary
+                ? AppColors.accent
                 : AppColors.textGray.withValues(alpha: 0.2),
           ),
         ),
@@ -544,7 +545,7 @@ class _HistoriqueScreenState extends State<HistoriqueScreen> {
               icon: const Icon(Icons.refresh_rounded),
               label: const Text('Réessayer'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
+                backgroundColor: AppColors.accent,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),

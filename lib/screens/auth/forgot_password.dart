@@ -50,7 +50,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
           'ngrok-skip-browser-warning': 'true',
         },
         body: jsonEncode({'email': _emailController.text.trim()}),
-      );
+      ).timeout(const Duration(seconds: 15));
       final data = jsonDecode(response.body);
       if (!mounted) return;
       setState(() => _isLoading = false);
@@ -105,7 +105,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
                         Image.asset(
                           'assets/images/forgot_bg.png',
                           fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) => Container(color: const Color(0xFF0F766E)),
+                          errorBuilder: (_, __, ___) => Container(color: AppColors.primary),
                         ),
 
                         Container(
@@ -114,9 +114,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                               colors: [
-                                Color(0xCC064E3B),
-                                Color(0xCC0F766E),
-                                Color(0xBB0D9488),
+                                Color(0xCC1F2A52),
+                                Color(0xCC2E3A6B),
+                                Color(0xBB4A5694),
                               ],
                             ),
                           ),
@@ -255,7 +255,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
                                   : const Icon(Icons.send_rounded, size: 18),
                               label: const Text('Envoyer le code', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.primary,
+                                backgroundColor: AppColors.accent,
                                 foregroundColor: Colors.white,
                                 padding: const EdgeInsets.symmetric(vertical: 14),
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

@@ -20,8 +20,11 @@ class VerifyService {
           'ngrok-skip-browser-warning': 'true',
           'Authorization': 'Bearer $token',
         },
-      );
+      ).timeout(const Duration(seconds: 15));
 
+      if (response.headers['content-type']?.contains('application/json') != true) {
+        return {'success': false, 'message': 'Réponse invalide du serveur'};
+      }
       final data = jsonDecode(response.body);
 
       if (response.statusCode == 200 && data['success'] == true) {

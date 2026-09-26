@@ -38,7 +38,7 @@ class VeriScanApp extends StatelessWidget {
         useMaterial3: true,
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.primary,
+            backgroundColor: AppColors.accent,
             foregroundColor: AppColors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
@@ -113,7 +113,7 @@ class _StartScreenState extends State<_StartScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      backgroundColor: Color(0xFF0F766E),
+      backgroundColor: AppColors.primary,
       body: SizedBox.shrink(),
     );
   }

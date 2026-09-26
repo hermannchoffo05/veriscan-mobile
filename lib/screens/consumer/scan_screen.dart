@@ -260,7 +260,7 @@ class _ScanScreenState extends State<ScanScreen> {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
+                    backgroundColor: AppColors.accent,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14),
@@ -316,7 +316,7 @@ class _ResultScreenState extends State<_ResultScreen> {
           if (token != null) 'Authorization': 'Bearer $token',
         },
         body: jsonEncode({'token': widget.token}),
-      );
+      ).timeout(const Duration(seconds: 15));
 
       final data = jsonDecode(response.body);
 

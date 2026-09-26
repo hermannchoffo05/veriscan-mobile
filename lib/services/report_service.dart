@@ -55,8 +55,11 @@ class ReportService {
         );
       }
 
-      final streamed = await request.send();
+      final streamed = await request.send().timeout(const Duration(seconds: 30));
       final response = await http.Response.fromStream(streamed);
+      if (response.headers['content-type']?.contains('application/json') != true) {
+        return {'success': false, 'message': 'Réponse invalide du serveur'};
+      }
       final data     = jsonDecode(response.body) as Map<String, dynamic>;
 
       if (response.statusCode == 201 && data['success'] == true) {

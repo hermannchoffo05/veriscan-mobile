@@ -122,7 +122,7 @@ Widget _navItem(int index, IconData icon, String label) {
         ),
         decoration: BoxDecoration(
           color: isActive
-              ? AppColors.primary.withValues(alpha: 0.12)
+              ? AppColors.accent.withValues(alpha: 0.15)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(16),
         ),
@@ -136,7 +136,7 @@ Widget _navItem(int index, IconData icon, String label) {
                 ..translate(0.0, isActive ? -3.0 : 0.0),
               child: Icon(
                 icon,
-                color: isActive ? AppColors.primary : AppColors.textGray,
+                color: isActive ? AppColors.accentDark : AppColors.textGray,
                 size: isActive ? 26 : 24,
               ),
             ),
@@ -148,7 +148,7 @@ Widget _navItem(int index, IconData icon, String label) {
                 fontWeight:
                     isActive ? FontWeight.w700 : FontWeight.w400,
                 color:
-                    isActive ? AppColors.primary : AppColors.textGray,
+                    isActive ? AppColors.accentDark : AppColors.textGray,
               ),
               child: Text(label),
             ),
@@ -219,7 +219,7 @@ class _DashboardTabState extends State<_DashboardTab> {
           'ngrok-skip-browser-warning': 'true',
           if (token != null) 'Authorization': 'Bearer $token',
         },
-      );
+      ).timeout(const Duration(seconds: 15));
       final data = jsonDecode(response.body);
       if (mounted && data['success'] == true) {
         setState(() => _nonLuesNotifs = data['non_lues'] ?? 0);
@@ -245,14 +245,14 @@ class _DashboardTabState extends State<_DashboardTab> {
           child: Column(
             children: [
 
-              // ── Header teal ──────────────────────────────────────────
+              // ── Header marine ──────────────────────────────────────────
               Container(
                 width: double.infinity,
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
-                    colors: [Color(0xFF0F766E), Color(0xFF0D9488), Color(0xFF14B8A6)],
+                    colors: [AppColors.primaryDark, AppColors.primary, AppColors.primarySoft],
                   ),
                 ),
                 child: Stack(
@@ -317,7 +317,7 @@ class _DashboardTabState extends State<_DashboardTab> {
                                                 color: AppColors.danger,
                                                 shape: BoxShape.circle,
                                                 border: Border.all(
-                                                  color: const Color(0xFF0F766E), width: 1.5),
+                                                  color: AppColors.primary, width: 1.5),
                                               ),
                                               child: Center(
                                                 child: Text(
@@ -431,7 +431,7 @@ class _DashboardTabState extends State<_DashboardTab> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
 
-                      // ── Hero Scanner ─────────────────────────────────
+                      // ── Hero Scanner (accent ORANGE pour se détacher du header marine) ──
                       GestureDetector(
                         onTap: widget.onGoToScanner,
                         child: Container(
@@ -441,9 +441,14 @@ class _DashboardTabState extends State<_DashboardTab> {
                             gradient: const LinearGradient(
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
-                              colors: [Color(0xFF0F766E), Color(0xFF14B8A6)],
+                              colors: [AppColors.accentDark, AppColors.accent],
                             ),
                             borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.accent.withValues(alpha: 0.35),
+                                blurRadius: 16, offset: const Offset(0, 6)),
+                            ],
                           ),
                           child: Row(
                             children: [
@@ -453,7 +458,7 @@ class _DashboardTabState extends State<_DashboardTab> {
                                   children: [
                                     Text('ACTION PRINCIPALE',
                                       style: TextStyle(
-                                        color: AppColors.white.withValues(alpha: 0.75),
+                                        color: AppColors.white.withValues(alpha: 0.85),
                                         fontSize: 11, fontWeight: FontWeight.w600,
                                         letterSpacing: 0.8)),
                                     const SizedBox(height: 6),
@@ -470,7 +475,7 @@ class _DashboardTabState extends State<_DashboardTab> {
                                         borderRadius: BorderRadius.circular(10)),
                                       child: Text(s.scanTitle,
                                         style: const TextStyle(
-                                          color: AppColors.primary, fontSize: 13,
+                                          color: AppColors.accentDark, fontSize: 13,
                                           fontWeight: FontWeight.w700)),
                                     ),
                                   ],
