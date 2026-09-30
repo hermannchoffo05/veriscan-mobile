@@ -64,9 +64,10 @@ class _VerifyManualScreenState extends State<VerifyManualScreen> {
           if (data['success'] == true) {
             _result = {
               'status': data['resultat'],
-              'message': data['resultat'] == 'authentique'
-                  ? 'Ce produit est authentique et certifié.'
-                  : 'Ce produit est suspect — soyez vigilant.',
+              'message': data['message'] ??
+                  (data['resultat'] == 'authentique'
+                      ? 'Ce produit est authentique et certifié.'
+                      : 'Ce produit est suspect — soyez vigilant.'),
               'produit': data['produit'],
             };
           } else {

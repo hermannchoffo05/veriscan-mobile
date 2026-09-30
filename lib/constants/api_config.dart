@@ -1,5 +1,5 @@
 class ApiConfig {
-static const String baseUrl = 'https://headset-beliefs-custody-oriented.trycloudflare.com';
+static const String baseUrl = 'https://commitment-janet-where-pending.trycloudflare.com';
 
   // Auth
   static const String register = '$baseUrl/api/register';
