@@ -1,5 +1,8 @@
 class ApiConfig {
-static const String baseUrl = 'https://commitment-janet-where-pending.trycloudflare.com';
+static const String baseUrl = String.fromEnvironment(
+  'API_BASE_URL',
+  defaultValue: 'https://detected-response-carmen-excessive.trycloudflare.com',
+);
 
   // Auth
   static const String register = '$baseUrl/api/register';
